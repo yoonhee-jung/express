@@ -1,12 +1,13 @@
 import express from 'express'; //express 모듈 가져오기
 import authRouter from './routes/auth.router.js';
 import usersRouter from './routes/users.router.js';
+import { eduTest } from './app/middlewares/edu/edu.middleware.js';
 // ern(정적파일), was(동적파일 전달)
 // 요청하는 파일, 사람, 등등. 
 
 
 const app = express();
-
+app.use(eduTest); // 가장 위쪽에 커스텀 미들웨어 전역 등록
 // 얘가 있어야 'Request.body' 쓸 수 있음
 app.use(express.json()); // JSON으로 요청 올 때 파싱 처리 해 주는 미들웨어
 
