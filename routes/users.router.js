@@ -1,23 +1,41 @@
 import express from 'express';
-import pool from './db/mydb.js';
+// import pool from './db/mydb.js';
+import db from '../app/models/index.js'
 import { eduUsersTest } from '../app/middlewares/edu/edu.middleware.js';
+
+const { sequelize, Employee} = db; // db안에 모델 많아질 예정
 
 const usersRouter = express.Router();
 
-usersRouter.get('/', eduUsersTest, (request, response, next) => {
-  response.status(200).send('전체 정보 조회 완료');
+// usersRouter.get('/', eduUsersTest, (request, response, next) => {
+//   response.status(200).send('전체 정보 조회 완료');
+// });
+
+usersRouter.get('/', (request, response, next) => {
+  response.status(200).send('전체 유저 정보 조회 완료');
 });
 
 usersRouter.get('/info/:id', async (request, response, next) => {
   try {
     const id = parseInt(request.params.id);
+    //sequelize로 db 연동
+
+    try {
+      const result = await Employee.findByPk(id);
+      return response.status(200).send(result);
+    } catch(error) {
+      next(error);
+    }
+
+
+    // mysql2로 db 연동
     // QUERY 작성
-    const sql = 
-      `SELECT *
-      FROM employees
-      WHERE
-        emp_id = ${id}
-      `;
+    // const sql = 
+    //   `SELECT *
+    //   FROM employees
+    //   WHERE
+    //     emp_id = ${id}
+    //   `;
 
     // const [result] = await pool.query(sql);
     // prepared statement emp_id = ? >> 세팅되는 값 데이터베이스한테 전달, db가 sql 따로 id 따로 최종적으로 db쪽에서 
@@ -26,11 +44,11 @@ usersRouter.get('/info/:id', async (request, response, next) => {
     //execute test usign @a;
     //이런 구문으로..
     // prepated statement 두 번째 방어 수단
-    const [result] = await pool.execute(sql, [id]); 
+    // const [result] = await pool.execute(sql, [id]); 
     // sql인젝션.. 막기 위해..
 
 
-  return response.status(200).send(result);
+  // return response.status(200).send(result);
   
   } catch(error) {
     next(error);
