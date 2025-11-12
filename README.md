@@ -15,4 +15,26 @@ middlewares
     └ validationHandler.js  # 유효성 검사 통과 여부에 따른 공통 처리 미들웨어
 
     
+### 정상
+
+{
+    code: '00',
+    message: '정상 처리',
+    data: []
+}
+
+### 에러
+
+{
+    code: 'E01',
+    message: '아이디나 비밀번호가 틀렸습니다.',
+    data: null | []
+}
+
+# DB연동
+## 설치
+
+npm install mysql2 sequelize sequelize-cli
+
+npm install dotenv
 

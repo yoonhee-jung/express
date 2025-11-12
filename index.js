@@ -2,6 +2,7 @@ import express from 'express'; //express 모듈 가져오기
 import authRouter from './routes/auth.router.js';
 import usersRouter from './routes/users.router.js';
 import { eduTest } from './app/middlewares/edu/edu.middleware.js';
+import { errorHandler } from './app/middlewares/errors/error-handler.js';
 // ern(정적파일), was(동적파일 전달)
 // 요청하는 파일, 사람, 등등. 
 
@@ -98,6 +99,26 @@ app.use('/api', authRouter);
 // 대체 라우트보다 위에 라우트 그룹 있어야 함
 app.use('/users', usersRouter);
 
+// 에러 테스트용 라우트
+// app.get('/error', (request, response, next) => {
+//     throw new Error('쓰로우로 예외 발생')
+
+// // `next(error)`
+//   } );
+
+   app.get('/error', (request, response, next) => {
+//     // `throw`를 이용하여 에러 핸들링 처리도 가능(비동기 처리 내부에서는 에러 핸들러가 핸들링 못함)
+      //  비동기 처리 내부에서는 반드시 `next(error)`를 이용해야 서버 crashed 안 일어남
+    setTimeout(() => {
+    next(new Error('..쓰로우로 예외 발생'));
+    }, 1000);
+
+// // `next(error)` // 비동기 상황에서는 next를 써야 함
+  } );
+
+
+
+
 // 대체 라우트(모든 라우터 중에 가장 마지막에 작성)
 app.use((request, response, next)=>{
     response.status(404).send({
@@ -105,6 +126,9 @@ app.use((request, response, next)=>{
     msg: '찾을 수 없는 페이지입니다'
     });
 });
+
+// error handler 등록
+app.use(errorHandler);
 
 // 서버를 주어진 포트에서 시작
 app.listen( 3000, () => {
