@@ -1,5 +1,5 @@
 import express from 'express';
-// import pool from './db/mydb.js';
+// import pool from '../app/db/mydb.js'
 import db from '../app/models/index.js'
 import { eduUsersTest } from '../app/middlewares/edu/edu.middleware.js';
 

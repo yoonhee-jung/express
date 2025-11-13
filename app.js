@@ -3,6 +3,7 @@ import authRouter from './routes/auth.router.js';
 import usersRouter from './routes/users.router.js';
 import { eduTest } from './app/middlewares/edu/edu.middleware.js';
 import { errorHandler } from './app/middlewares/errors/error-handler.js';
+import eduRouter from './routes/edu.router.js';
 // ern(정적파일), was(동적파일 전달)
 // 요청하는 파일, 사람, 등등. 
 
@@ -98,6 +99,8 @@ app.use('/api', authRouter);
 
 // 대체 라우트보다 위에 라우트 그룹 있어야 함
 app.use('/users', usersRouter);
+
+app.use(eduRouter);
 
 // 에러 테스트용 라우트
 // app.get('/error', (request, response, next) => {

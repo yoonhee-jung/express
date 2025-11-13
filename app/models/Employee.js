@@ -104,7 +104,7 @@ const attributes = {
   deletedAt: {
     field: 'deleted_at',
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     defaultValue: null,
     comment: '삭제일',
     get() {
@@ -125,6 +125,7 @@ const options = {
   //createdAt: 'empCreatedAt',
   //updatedAt: false,
   paranoid: true, //Soft Delete 설정 (deletedAt 자동 관리)
+  //select할 때도 deleted_at들어가 있는 부분 자동으로 삭제해 줌
   //paranoid: false //hard Delete(Employee.destroy(1) 했을 때 물리적 삭제함)
 }
 
